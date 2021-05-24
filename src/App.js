@@ -1,36 +1,19 @@
-import { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-const createArray = (length) => {
-  return [...Array(length)];
-};
-
-function Star({ selected = false, onSelect }) {
-  return <FaStar color={selected ? 'red' : 'gray'} onClick={onSelect} />
-};
-
-function StarRating({ totalStars = 5 }) {
-  const [selectedStars, setSelectedStars] = useState(0);
-
-  const content = (createArray(totalStars).map((n, i) => {
-    return <Star key={i} selected={selectedStars > i} onSelect={() => {
-      setSelectedStars(i + 1);
-    }} />
-  }));
-
-  return (
-    <>
-      {content}
-      <p>Rating: {selectedStars} out of {totalStars}</p>
-    </>
-  )
-};
-
 function App() {
+  const [name, setName] = useState('Jan');
+
+  useEffect(() => {
+    document.title = `Celebrate ${name}`
+  }, [name]);
+
   return (
     <div className="App">
-      <StarRating totalStars={10} />
+      <section>
+        <p>Congratulations {name}!</p>
+        <button type='button' onClick={() => { setName('Will') }}>Change Winner</button>
+      </section>
     </div>
   );
 };
