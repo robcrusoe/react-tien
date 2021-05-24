@@ -2,12 +2,12 @@ import { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [packageName, setPackageName] = useState('Not Delivered');
+  const [checked, setChecked] = useState(false);
 
   return (
     <div className="App">
-      <h1>The package is: {packageName}</h1>
-      <button type='button' onClick={() => { setPackageName('Delivered') }}>Deliver</button>
+      <input type='checkbox' value={checked} onChange={() => { setChecked((prevState) => { return !prevState }) }} />
+      <p>{checked ? 'Checked' : 'Not Checked'}</p>
     </div>
   );
 }
