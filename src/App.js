@@ -2,28 +2,29 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [name, setName] = useState('Jan');
-  const [admin, setAdmin] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    document.title = `Celebrate ${name}`
-  }, [name]);
+    const fetchUsers = async () => {
+      const response = await fetch('https://api.github.com/users');
+      const body = await response.json();
 
-  useEffect(() => {
-    console.log(`The user is ${admin ? 'admin' : 'not admin'}.`);
-  }, [admin]);
+      console.log(body);
+      setData(body);
+    };
+
+    fetchUsers();
+  }, []);
+
+  let content = <p>No Users!</p>;
+  if (data && data.length > 0) {
+    content = <ul>{data.map(user => <li key={user.id}>{user.login}</li>)}</ul>
+  }
 
   return (
-    <div className="App">
-      <section>
-        <p>Congratulations {name}!</p>
-        <button type='button' onClick={() => { setName('Will') }}>Change Winner</button>
-
-        {admin && <p>Logged In!</p>}
-        {!admin && <p>Not Logged In!</p>}
-        <button type='button' onClick={() => { setAdmin(true) }}>Log In</button>
-      </section>
-    </div>
+    <>
+      {content}
+    </>
   );
 };
 
