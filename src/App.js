@@ -1,30 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useReducer } from 'react';
 import './App.css';
 
-function App() {
-  const [data, setData] = useState([]);
+const defaultNumberState = 0;
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('https://api.github.com/users');
-      const body = await response.json();
-
-      console.log(body);
-      setData(body);
-    };
-
-    fetchUsers();
-  }, []);
-
-  let content = <p>No Users!</p>;
-  if (data && data.length > 0) {
-    content = <ul>{data.map(user => <li key={user.id}>{user.login}</li>)}</ul>
+function numberReducer(state, action) {
+  if (action.type === 'ADD_NUMBER') {
+    return state + action.numberToAdd;
   }
+}
+
+function App() {
+  const [numberState, dispatchNumberAction] = useReducer(numberReducer, defaultNumberState);
 
   return (
     <>
-      {content}
-      <button type='button' onClick={() => { setData([]) }}>Remove Data</button>
+      <h1 onClick={() => { dispatchNumberAction({ type: 'ADD_NUMBER', numberToAdd: 1 }) }}>{numberState}</h1>
     </>
   );
 };
