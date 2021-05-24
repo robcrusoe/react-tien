@@ -24,6 +24,7 @@ function App() {
   return (
     <>
       {content}
+      <button type='button' onClick={() => { setData([]) }}>Remove Data</button>
     </>
   );
 };
